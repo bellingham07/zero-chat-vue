@@ -12,7 +12,7 @@ const form = reactive({
 })
 
 const register = () => {
-  UserRequest.post("/user/register",JSON.stringify(form)).then((res) => {
+  UserRequest.post("/register",JSON.stringify(form)).then((res) => {
     if (res.data.code === 200) {
       SuccessInfo("注册成功，请切换登录页面")
       router.push('/')

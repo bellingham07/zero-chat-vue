@@ -13,6 +13,7 @@ const initWs=()=>{
 
   ws.onmessage = function(event) {
     var message = event.data;
+    console.log("return msg:",message)
     var messageElement = document.createElement("div");
     messageElement.innerText = message;
     document.getElementById("messages").appendChild(messageElement);

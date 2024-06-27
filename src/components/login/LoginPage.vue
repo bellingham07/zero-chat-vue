@@ -19,7 +19,7 @@ const config = {
 };
 
 const login = () => {
-  UserRequest.post('/user/login', form).then((res) => {
+  UserRequest.post('/login', form).then((res) => {
     if (res.data.code === 200) {
       localStorage.setItem('token', res.data.data.access_token)
       localStorage.setItem('uid', res.data.data.uid)
