@@ -1,9 +1,10 @@
 <script setup>
 import {reactive, ref} from 'vue'
-import {ErrorInfo, SuccessInfo} from "../../utils/util.js";
-import {UserRequest} from "../../request/request";
+import {ErrorInfo, SuccessInfo} from "@/utils/util.js";
+import {UserRequest} from "@/request/request.js";
 
 import router from "../../router/index.js";
+import websocketService from "@/websocket/websocket.js";
 
 
 const form = reactive({
@@ -24,6 +25,7 @@ const login = () => {
       localStorage.setItem('token', res.data.data.access_token)
       localStorage.setItem('uid', res.data.data.uid)
       // localStorage.setItem('role', res.data.data.role)
+      websocketService.send(`{"uid":"${res.data.data.uid}"}`)
       SuccessInfo("登录成功")
     }else{
       ErrorInfo(res.data.msg)

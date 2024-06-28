@@ -2,6 +2,8 @@
 import {onMounted, reactive} from "vue";
 import {UserRequest} from "@/request/request.js";
 import {ErrorInfo} from "@/utils/util.js";
+import router from "@/router/index.js";
+import {useCounterStore} from "@/store/store.js";
 
 const allContacts=reactive({
   arr:[]
@@ -14,6 +16,13 @@ const getContacts=()=>{
       ErrorInfo("get contacts error")
     }
   })
+}
+
+const uid=useCounterStore()
+
+const sendMsg=(c)=>{
+  router.push("/index/chat")
+  uid.set(c.id)
 }
 
 onMounted(
@@ -29,6 +38,7 @@ onMounted(
     <div class="contacts-box" v-for="c in allContacts.arr" :key="c">
       {{c.email}}
       {{c.nickname}}
+      <el-button @click="sendMsg(c)">send msg</el-button>
     </div>
   </div>
 </div>

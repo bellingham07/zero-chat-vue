@@ -30,7 +30,7 @@ const initWs=()=>{
 
 onMounted(
     ()=>{
-      initWs()
+      // initWs()
     }
 )
 </script>

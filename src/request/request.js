@@ -17,7 +17,7 @@ UserRequest.interceptors.request.use(function (config) {
 })
 
 export const ChatRequest = axios.create({
-    baseURL: 'http://127.0.0.1:8002',
+    baseURL: 'http://127.0.0.1:8002/chat',
 })
 
 ChatRequest.interceptors.request.use(function (config) {
