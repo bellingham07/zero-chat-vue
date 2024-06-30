@@ -15,23 +15,29 @@ const counterStore = useCounterStore();
 const initWs = () => {
   websocketService.ws.onmessage = function (event) {
     var message = event.data;
-    console.log("return msg:", message)
-    var messageElement = document.createElement("div");
     const tmp = JSON.parse(message)
-    messageElement.innerText = `${tmp.fromUid}:${tmp.body}`;
-    document.getElementById("messages").appendChild(messageElement);
+    const msg=`${tmp.fromUid}:${tmp.body}`
+    insertMsgToPage(msg)
   };
 }
 
+const insertMsgToPage=(message)=>{
+  var messageElement = document.createElement("div");
+  messageElement.innerText = message;
+  document.getElementById("messages").appendChild(messageElement);
+}
 const initStore = () => {
   uid.value = counterStore.count
 }
 
 const sendMsg = () => {
   msgInfo.uid = String(counterStore.count)
+  const curUid = localStorage.getItem("uid")
   ChatRequest.post('/sub', msgInfo).then((res) => {
     if (res.data.code === 200) {
       console.log("ok")
+      insertMsgToPage(`${curUid}:${msgInfo.msg}`)
+      msgInfo.msg=''
     } else {
       ErrorInfo("send failed")
     }
