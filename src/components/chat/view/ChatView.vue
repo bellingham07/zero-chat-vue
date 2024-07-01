@@ -33,7 +33,7 @@ const initStore = () => {
 const sendMsg = () => {
   msgInfo.uid = String(counterStore.count)
   const curUid = localStorage.getItem("uid")
-  ChatRequest.post('/sub', msgInfo).then((res) => {
+  ChatRequest.post('/send', msgInfo).then((res) => {
     if (res.data.code === 200) {
       console.log("ok")
       insertMsgToPage(`${curUid}:${msgInfo.msg}`)
@@ -58,7 +58,7 @@ onMounted(
     <div class="username">username:{{ uid }}</div>
     <div id="messages"></div>
     <div class="send">
-        <el-input placeholder="input message..." v-model="msgInfo.msg"></el-input>
+        <el-input placeholder="input message..." v-model="msgInfo.msg" @keydown.enter="sendMsg"></el-input>
         <el-button @click="sendMsg()">send</el-button>
     </div>
   </div>
