@@ -16,12 +16,28 @@ const initWs = () => {
   websocketService.ws.onmessage = function (event) {
     var message = event.data;
     const tmp = JSON.parse(message)
-    const msg=`${tmp.fromUid}:${tmp.body}`
+    const msg = `${tmp.fromUid}:${tmp.body}`
     insertMsgToPage(msg)
   };
 }
 
-const insertMsgToPage=(message)=>{
+let detailHistory = reactive({
+  arr: []
+})
+const getHistoryChat = () => {
+  const data = {
+    'to_uid': parseInt(counterStore.count)
+  }
+  ChatRequest.post('/detail', data).then((res) => {
+    if (res.data.code === 200) {
+      detailHistory.arr = res.data.data.list
+    } else {
+      ErrorInfo(res.data.msg)
+    }
+  })
+}
+
+const insertMsgToPage = (message) => {
   var messageElement = document.createElement("div");
   messageElement.innerText = message;
   document.getElementById("messages").appendChild(messageElement);
@@ -37,7 +53,7 @@ const sendMsg = () => {
     if (res.data.code === 200) {
       console.log("ok")
       insertMsgToPage(`${curUid}:${msgInfo.msg}`)
-      msgInfo.msg=''
+      msgInfo.msg = ''
     } else {
       ErrorInfo("send failed")
     }
@@ -48,6 +64,7 @@ onMounted(
     () => {
       initStore()
       initWs()
+      getHistoryChat()
     }
 )
 </script>
@@ -56,10 +73,13 @@ onMounted(
   <div class="chat-container">
     <!--    todo: in fact ,this field should be nickname-->
     <div class="username">username:{{ uid }}</div>
+    <div v-for="c in detailHistory.arr">
+     {{c.send_id}}:{{c.msg}}
+    </div>
     <div id="messages"></div>
     <div class="send">
-        <el-input placeholder="input message..." v-model="msgInfo.msg" @keydown.enter="sendMsg"></el-input>
-        <el-button @click="sendMsg()">send</el-button>
+      <el-input placeholder="input message..." v-model="msgInfo.msg" @keydown.enter="sendMsg"></el-input>
+      <el-button @click="sendMsg()">send</el-button>
     </div>
   </div>
 </template>
@@ -75,8 +95,7 @@ onMounted(
   margin-top: auto; /* 将发送区域推到容器的底部 */
   display: flex;
   flex-direction: row;
-  //padding: 10px;
-  background-color: white; /* 根据需要设置背景颜色 */
+//padding: 10px; background-color: white; /* 根据需要设置背景颜色 */
 }
 
 .username {
