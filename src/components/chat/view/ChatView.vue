@@ -28,7 +28,7 @@ const getHistoryChat = () => {
   const data = {
     'to_uid': parseInt(counterStore.count)
   }
-  ChatRequest.post('/detail', data).then((res) => {
+  ChatRequest.post('/chat/detail', data).then((res) => {
     if (res.data.code === 200) {
       detailHistory.arr = res.data.data.list
     } else {
@@ -49,7 +49,7 @@ const initStore = () => {
 const sendMsg = () => {
   msgInfo.uid = String(counterStore.count)
   const curUid = localStorage.getItem("uid")
-  ChatRequest.post('/send', msgInfo).then((res) => {
+  ChatRequest.post('/chat/send', msgInfo).then((res) => {
     if (res.data.code === 200) {
       console.log("ok")
       insertMsgToPage(`${curUid}:${msgInfo.msg}`)

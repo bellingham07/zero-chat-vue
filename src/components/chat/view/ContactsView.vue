@@ -1,6 +1,6 @@
 <script setup>
 import {onMounted, reactive, ref} from "vue";
-import {UserRequest} from "@/request/request.js";
+import {ChatRequest} from "@/request/request.js";
 import {ErrorInfo, SuccessInfo} from "@/utils/util.js";
 import router from "@/router/index.js";
 import {useCounterStore} from "@/store/store.js";
@@ -10,7 +10,7 @@ const allContacts = reactive({
   arr: []
 })
 const getContacts = () => {
-  UserRequest.post("/get").then((res) => {
+  ChatRequest.post("/user/get").then((res) => {
     if (res.data.code === 200) {
       allContacts.arr = res.data.data.list
     } else {
@@ -32,7 +32,7 @@ const searchContacts = () => {
   const data = {
     'key': searchValue.value
   }
-  UserRequest.post('/search', data).then((res) => {
+  ChatRequest.post('/user/search', data).then((res) => {
     if (res.data.code === 200) {
       allContacts.arr = res.data.data.list
     } else {
@@ -53,7 +53,7 @@ const searchContact = () => {
   const data = {
     'uid': addContactUid.value
   }
-  UserRequest.post('/search/user', data).then((res) => {
+  ChatRequest.post('/user/search/user', data).then((res) => {
     if (res.data.code === 200) {
       console.log("res:", res.data.data)
       newContacts = res.data.data
@@ -72,7 +72,7 @@ const addContact=()=>{
   const data = {
     'uid': newContacts.id.toString()
   }
-  UserRequest.post('/add', data).then((res) => {
+  ChatRequest.post('/user/add', data).then((res) => {
     if (res.data.code === 200) {
       SuccessInfo("request successful")
       closeContact()

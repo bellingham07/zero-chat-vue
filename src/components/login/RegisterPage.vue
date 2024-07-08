@@ -2,7 +2,7 @@
 import {reactive} from "vue";
 import {ErrorInfo, SuccessInfo} from "../../utils/util.js";
 import router from "../../router/index.js";
-import {UserRequest} from "../../request/request.js";
+import {ChatRequest} from "../../request/request.js";
 
 
 const form = reactive({
@@ -12,7 +12,7 @@ const form = reactive({
 })
 
 const register = () => {
-  UserRequest.post("/register",JSON.stringify(form)).then((res) => {
+  ChatRequest.post("/user/register",JSON.stringify(form)).then((res) => {
     if (res.data.code === 200) {
       SuccessInfo("注册成功，请切换登录页面")
       router.push('/')

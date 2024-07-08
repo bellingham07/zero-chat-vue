@@ -1,6 +1,6 @@
 <script setup>
 import {onMounted, reactive} from "vue";
-import {ChatRequest, UserRequest} from "@/request/request.js";
+import {ChatRequest} from "@/request/request.js";
 import {ErrorInfo} from "@/utils/util.js";
 import {useCounterStore} from "@/store/store.js";
 import router from "@/router/index.js";
@@ -9,7 +9,7 @@ const chatHistoryTmp = reactive({
   arr: []
 })
 const getAllHistory = () => {
-  ChatRequest.get('/all').then((res) => {
+  ChatRequest.get('/chat/all').then((res) => {
     if (res.data.code === 200) {
       chatHistoryTmp.arr = res.data.data.list
     } else {

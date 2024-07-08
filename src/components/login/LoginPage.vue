@@ -1,7 +1,7 @@
 <script setup>
 import {reactive, ref} from 'vue'
 import {ErrorInfo, SuccessInfo} from "@/utils/util.js";
-import {UserRequest} from "@/request/request.js";
+import {ChatRequest} from "@/request/request.js";
 
 import router from "../../router/index.js";
 import websocketService from "@/websocket/websocket.js";
@@ -20,17 +20,17 @@ const config = {
 };
 
 const login = () => {
-  UserRequest.post('/login', form).then((res) => {
+  ChatRequest.post('/user/login', form).then((res) => {
     if (res.data.code === 200) {
       localStorage.setItem('token', res.data.data.access_token)
       localStorage.setItem('uid', res.data.data.uid)
       // localStorage.setItem('role', res.data.data.role)
       websocketService.send(`{"uid":"${res.data.data.uid}"}`)
       SuccessInfo("登录成功")
-    }else{
+    } else {
       ErrorInfo(res.data.msg)
     }
-    router.push('/index/message')
+    router.push('/index/contacts')
   })
 }
 </script>
@@ -46,7 +46,7 @@ const login = () => {
                type="success">LOGIN
     </el-button>
     <br>
-<!--    <router-link to="/reg">没有账号？立即注册</router-link>-->
+    <!--    <router-link to="/reg">没有账号？立即注册</router-link>-->
   </div>
 </template>
 

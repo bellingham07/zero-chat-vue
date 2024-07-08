@@ -40,5 +40,5 @@ class WebSocketService {
     }
 }
 
-const websocketService = new WebSocketService('ws://localhost:7272/chat/ws');
+const websocketService = new WebSocketService('ws://localhost:14102/chat/ws');
 export default websocketService;
